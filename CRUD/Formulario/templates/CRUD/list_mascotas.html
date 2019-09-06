@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de mascotas{% endblock %}
+ 
+{% block content %}
+
+{% if object_list %}
+  <h2 class="pt-4 pb-2">Mascotas</h2>
+  <table class="table table-striped table-light table-sm">
+
+    <thead class="thead-dark">
+      <tr>
+        <th>Dueño</th>
+        <th>Nombre</th>
+        <th>Edad</th>
+        <th>Especie</th>
+        <th>Color</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for mascota in object_list %}
+      <tr>
+        <td>{{ mascota.persona }}</td>
+        <td>{{ mascota.nombre }}</td>
+        <td>{{ mascota.edad }}</td>
+        <td>{{ mascota.especie }}</td>
+        <td>{{ mascota.color }}</td>
+        <td><a href="{% url 'persona:editar_mascota' mascota.pk %}"><button type="button" class="btn btn-outline-primary">Editar</button></a></td>
+        <td><a href="{% url 'persona:eliminar_mascota' mascota.pk %}"><button type="button" class="btn btn-outline-danger">Eliminar</button></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+<a href="{% url 'persona:crear_mascota' %}"> <button type="button" class="btn btn-success">Agregar</button></a>
+
+{% else %}
+<div class="pt-4">
+<div class="jumbotron">
+  <h1 class="display-4">Mascotas</h1>
+  <p class="lead">Aquí se mostrarán las mascotas registradas.</p>
+  <hr class="my-4">
+  <p>Parece que todavía no hay mascotas registradas en tu base de datos.</p>
+  <p>¿Que te parece si agregamos algunas?</p>
+  <a href="{% url 'persona:crear_mascota' %}"> <button type="button" class="btn btn-success">Agregar</button></a>
+</div>
+</div>
+{% endif %}
+
+
+
+{% include "pagination.html" with page=object_list %}
+
+{% endblock %}
